@@ -36,7 +36,7 @@ spec:
     - ReadOnlyMany
   resources:
     requests:
-      storage: 200Mi
+      storage: 300Mi
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -59,7 +59,7 @@ spec:
     - ReadOnlyMany
   resources:
     requests:
-      storage: 200Mi
+      storage: 300Mi
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -82,4 +82,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 200Mi
+      storage: 300Mi

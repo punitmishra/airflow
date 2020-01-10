@@ -46,7 +46,7 @@ spec:
     spec:
       initContainers:
       - name: "init"
-        image: {{AIRFLOW_IMAGE}}:{{AIRFLOW_TAG}}
+        image: eu.gcr.io/taiyo-239217/taiyo:6d7656f
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: airflow-configmap
@@ -70,7 +70,7 @@ spec:
 {{INIT_GIT_SYNC}}
       containers:
       - name: webserver
-        image: {{AIRFLOW_IMAGE}}:{{AIRFLOW_TAG}}
+        image: eu.gcr.io/taiyo-239217/taiyo:6d7656f
         imagePullPolicy: IfNotPresent
         ports:
         - name: webserver
@@ -95,7 +95,7 @@ spec:
         - name: airflow-logs
           mountPath: /root/airflow/logs
       - name: scheduler
-        image: {{AIRFLOW_IMAGE}}:{{AIRFLOW_TAG}}
+        image: eu.gcr.io/taiyo-239217/taiyo:6d7656f
         imagePullPolicy: IfNotPresent
         args: ["scheduler"]
         env:

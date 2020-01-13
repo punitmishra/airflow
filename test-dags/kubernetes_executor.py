@@ -4,6 +4,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.utils.dates import days_ago
 
+
 default_args = {
     'owner': 'airflow',
     'start_date': days_ago(2),
@@ -17,6 +18,7 @@ dag = DAG(
 )
 
 
+start = DummyOperator(task_id='run_this_first', dag=dag)
 
 passing = KubernetesPodOperator(namespace='default',
                           image="Python:3.6",

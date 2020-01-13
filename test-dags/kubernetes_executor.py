@@ -17,6 +17,20 @@ dag = DAG(
     dagrun_timeout=timedelta(minutes=60)
 )
 
+volume_mount = VolumeMount('test-volume',
+                           mount_path='/',
+                           sub_path=None,
+                           read_only=False)
+
+volume_config= {
+    'persistentVolumeClaim':
+    {
+        'claimName': 'test-volume' # uses the persistentVolumeClaim given in the Kube yaml
+    }
+}
+
+volume = Volume(name="test-volume", configs=volume_config)
+
 
 start = DummyOperator(task_id='run_this_first', dag=dag)
 
@@ -27,6 +41,8 @@ passing = KubernetesPodOperator(namespace='default',
                           labels={"foo": "bar"},
                           name="passing-test",
                           task_id="passing-task",
+                          volume=[volume],
+                          volume_mounts=[volume_mount],
                           get_logs=True,
                           dag=dag
                           )

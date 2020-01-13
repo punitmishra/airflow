@@ -3,9 +3,6 @@ from datetime import datetime, timedelta
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.utils.dates import days_ago
-from airflow.contrib.kubernetes.volume import Volume
-from airflow.contrib.kubernetes.volume_mount import VolumeMount
-
 
 default_args = {
     'owner': 'airflow',
@@ -19,22 +16,7 @@ dag = DAG(
     dagrun_timeout=timedelta(minutes=60)
 )
 
-volume_mount = VolumeMount('airflow-logs',
-                           mount_path='/',
-                           sub_path=None,
-                           read_only=False)
 
-volume_config= {
-    'persistentVolumeClaim':
-    {
-        'claimName': 'airflow-logs' # uses the persistentVolumeClaim given in the Kube yaml
-    }
-}
-
-volume = Volume(name="airflow-logs", configs=volume_config)
-
-
-start = DummyOperator(task_id='run_this_first', dag=dag)
 
 passing = KubernetesPodOperator(namespace='default',
                           image="Python:3.6",
@@ -43,8 +25,6 @@ passing = KubernetesPodOperator(namespace='default',
                           labels={"foo": "bar"},
                           name="passing-test",
                           task_id="passing-task",
-                          volume=[volume],
-                          volume_mounts=[volume_mount],
                           get_logs=True,
                           dag=dag
                           )

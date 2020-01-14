@@ -60,6 +60,7 @@ with models.DAG(
     kubernetes_min_pod = kubernetes_pod_operator.KubernetesPodOperator(
         # The ID specified for the task.
         task_id='pod-ex-minimum',
+        in_cluster=True,
         # Name of task you want to run, used to generate Pod ID.
         name='pod-ex-minimum',
         # Entrypoint of the container, if not specified the Docker container's
@@ -84,6 +85,7 @@ with models.DAG(
     kubenetes_template_ex = kubernetes_pod_operator.KubernetesPodOperator(
         task_id='ex-kube-templates',
         name='ex-kube-templates',
+        in_cluster=True,
         namespace='default',
         image='bash',
         # All parameters below are able to be templated with jinja -- cmds,
@@ -113,6 +115,7 @@ with models.DAG(
     kubernetes_secret_vars_ex = kubernetes_pod_operator.KubernetesPodOperator(
         task_id='ex-kube-secrets',
         name='ex-kube-secrets',
+        in_cluster=True,
         namespace='default',
         image='ubuntu',
         startup_timeout_seconds=300,
@@ -129,6 +132,7 @@ with models.DAG(
         name='ex-pod-affinity',
         namespace='default',
         image='perl',
+        in_cluster=True,
         cmds=['perl'],
         arguments=['-Mbignum=bpi', '-wle', 'print bpi(2000)'],
         # affinity allows you to constrain which nodes your pod is eligible to
@@ -171,6 +175,7 @@ with models.DAG(
         name='pi',
         namespace='default',
         image='perl',
+        in_cluster=True,
         # Entrypoint of the container, if not specified the Docker container's
         # entrypoint is used. The cmds parameter is templated.
         cmds=['perl'],

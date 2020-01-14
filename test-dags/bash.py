@@ -1,88 +1,52 @@
+from airflow import DAG
+from datetime import datetime, timedelta
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
-from airflow.contrib.kubernetes.secret import Secret
+from airflow.operators.dummy_operator import DummyOperator
+from airflow.utils.dates import days_ago
+from airflow.contrib.kubernetes.volume import Volume
+from airflow.contrib.kubernetes.volume_mount import VolumeMount
 
-volume_mount = VolumeMount('test-volume',
-                            mount_path='/root/mount_file',
-                            sub_path=None,
-                            read_only=True)
+
+volume_mount = VolumeMount('persist-disk',
+                           mount_path='/files',
+                           sub_path=None,
+                           read_only=False)
 
 volume_config= {
     'persistentVolumeClaim':
-      {
-        'claimName': 'test-volume'
-      }
-    }
-volume = Volume(name='test-volume', configs=volume_config)
-
-affinity = {
-    'nodeAffinity': {
-      'preferredDuringSchedulingIgnoredDuringExecution': [
-        {
-          "weight": 1,
-          "preference": {
-            "matchExpressions": [
-              "key": "disktype",
-              "operator": "In",
-              "values": ["ssd"]
-            ]
-          }
-        }
-      ]
-    },
-    "podAffinity": {
-      "requiredDuringSchedulingIgnoredDuringExecution": [
-        {
-          "labelSelector": {
-            "matchExpressions": [
-              {
-                "key": "security",
-                "operator": "In",
-                "values": ["S1"]
-              }
-            ]
-          },
-          "topologyKey": "failure-domain.beta.kubernetes.io/zone"
-        }
-      ]
-    },
-    "podAntiAffinity": {
-      "requiredDuringSchedulingIgnoredDuringExecution": [
-        {
-          "labelSelector": {
-            "matchExpressions": [
-              {
-                "key": "security",
-                "operator": "In",
-                "values": ["S2"]
-              }
-            ]
-          },
-          "topologyKey": "kubernetes.io/hostname"
-        }
-      ]
+    {
+        'claimName': 'persist-pods-disk-claim' # uses the persistentVolumeClaim given in the Kube yaml
     }
 }
+volume = Volume(name='persist-disk', configs=volume_config)
 
-tolerations = [
-    {
-        'key': "key",
-        'operator': 'Equal',
-        'value': 'value'
-     }
-]
 
-k = KubernetesPodOperator(namespace='default',
-                          image="ubuntu:16.04",
-                          cmds=["bash", "-cx"],
-                          arguments=["echo", "10"],
+default_args = {
+    'owner': 'airflow',
+    'start_date': days_ago(2),
+}
+
+dag = DAG(
+    dag_id='kubernetes_sample',
+    default_args=default_args,
+    schedule_interval='0 0 * * *',
+    dagrun_timeout=timedelta(minutes=60)
+)
+
+
+start = DummyOperator(task_id='run_this_first', dag=dag)
+
+passing = KubernetesPodOperator(namespace='default',
+                          image="Python:3.6",
+                          cmds=["Python","-c"],
+                          arguments=["print('hello world')"],
                           labels={"foo": "bar"},
-                        
-                          volume=[volume],
-                          volume_mounts=[volume_mount]
-                          name="test",
-                          task_id="task",
-                          affinity=affinity,
-                          is_delete_operator_pod=True,
-                          hostnetwork=False,
-                          tolerations=tolerations
+                          name="passing-test",
+                          task_id="passing-task",
+						  volumes=[volume],
+                          volume_mounts=[volume_mount],
+                          get_logs=True,
+                          dag=dag
                           )
+
+passing.set_upstream(start)

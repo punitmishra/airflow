@@ -3,6 +3,14 @@ from datetime import datetime, timedelta
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.utils.dates import days_ago
+from airflow.contrib.kubernetes.volume import Volume
+from airflow.contrib.kubernetes.volume_mount import VolumeMount
+
+
+default_args = {
+    'owner': 'airflow',
+    'start_date': days_ago(2),
+}
 
 dag = DAG(
     dag_id='kubernetes_sample',
@@ -20,7 +28,7 @@ passing = KubernetesPodOperator(namespace='default',
                           arguments=["print('hello world')"],
                           labels={"foo": "bar"},
                           name="passing-test",
-                          task_id="passing-task",						  
+                          task_id="passing-task",
                           get_logs=True,
                           dag=dag
                           )

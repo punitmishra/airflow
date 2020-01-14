@@ -22,7 +22,7 @@ with models.DAG(
           in_cluster=True,
           namespace='default',
           image='python:3.6',
-          cmds=['Python','-c'],
+          cmds=["python","-c"],
           arguments=["print('hello world')"],
           startup_timeout_seconds=300
         )

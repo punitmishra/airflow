@@ -3,35 +3,31 @@ from datetime import datetime, timedelta
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.utils.dates import days_ago
+import datetime
+from airflow import models
+from airflow.contrib.kubernetes import secret
+from airflow.contrib.operators import kubernetes_pod_operator
+
+YESTERDAY = datetime.datetime.now() - datetime.timedelta(days=1)
 
 
-default_args = {
-    'owner': 'airflow',
-    'start_date': days_ago(2),
-}
+with models.DAG(
+        dag_id='kubernetes_sample',
+        schedule_interval=datetime.timedelta(days=1),
+        start_date=YESTERDAY) as dag:
 
-dag = DAG(
-    dag_id='kubernetes_sample',
-    default_args=default_args,
-    schedule_interval='0 0 * * *',
-    dagrun_timeout=timedelta(minutes=60)
-)
+        start = DummyOperator(task_id='run_this_first', dag=dag)
 
-
-start = DummyOperator(task_id='run_this_first', dag=dag)
-
-passing = KubernetesPodOperator(namespace='default',
-                          image="Python:3.6",
-                          cmds=["Python","-c"],
-                          arguments=["print('hello world')"],
-                          labels={"foo": "bar"},
-                          name="passing-test",
-                          task_id="passing-task",
-                          get_logs=False,
-                          in_cluster=True,
-                          dag=dag
-                          )
-
+        passing = kubernetes_pod_operator.KubernetesPodOperator(
+          task_id='passing-task',
+          name='passing-test',
+          in_cluster=True,
+          namespace='default',
+          image='Python:3.6',
+          cmds=['Python','-c'],
+          arguments=['print('hello world')'],
+          startup_timeout_seconds=300
+        )
 
 
 passing.set_upstream(start)

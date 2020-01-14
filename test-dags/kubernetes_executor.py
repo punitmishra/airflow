@@ -1,7 +1,7 @@
 from airflow import DAG
 from datetime import datetime, timedelta
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
-from airflow.operators.dummy_operator import DummyOperator
+from airflow.operators import dummy_operator
 from airflow.utils.dates import days_ago
 import datetime
 from airflow import models
@@ -16,7 +16,7 @@ with models.DAG(
         schedule_interval=datetime.timedelta(days=1),
         start_date=YESTERDAY) as dag:
 
-        start = DummyOperator(task_id='run_this_first', dag=dag)
+        start = dummy_operator.DummyOperator(task_id='run_this_first', dag=dag)
 
         passing = kubernetes_pod_operator.KubernetesPodOperator(
           task_id='passing-task',

@@ -23,7 +23,7 @@ with models.DAG(
           name='passing-test',
           in_cluster=True,
           namespace='default',
-          image='Python:3.6',
+          image='python:3.6',
           cmds=['Python','-c'],
           arguments=["print('hello world')"],
           startup_timeout_seconds=300

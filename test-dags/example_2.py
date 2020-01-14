@@ -121,10 +121,7 @@ with models.DAG(
         startup_timeout_seconds=300,
         # The secrets to pass to Pod, the Pod will fail to create if the
         # secrets you specify in a Secret object do not exist in Kubernetes.
-        secrets=[secret_env],
-        # env_vars allows you to specify environment variables for your
-        # container to use. env_vars is templated.
-        env_vars={'EXAMPLE_VAR': '/example/value'})
+        
     # [END composer_kubernetespodoperator_secretconfig]
     # [START composer_kubernetespodaffinity]
     kubernetes_affinity_ex = kubernetes_pod_operator.KubernetesPodOperator(

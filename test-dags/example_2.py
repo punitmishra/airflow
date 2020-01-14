@@ -118,10 +118,7 @@ with models.DAG(
         in_cluster=True,
         namespace='default',
         image='ubuntu',
-        startup_timeout_seconds=300
-        # The secrets to pass to Pod, the Pod will fail to create if the
-        # secrets you specify in a Secret object do not exist in Kubernetes.
-        
+        startup_timeout_seconds=300)
     # [END composer_kubernetespodoperator_secretconfig]
     # [START composer_kubernetespodaffinity]
     kubernetes_affinity_ex = kubernetes_pod_operator.KubernetesPodOperator(

@@ -16,8 +16,6 @@ with models.DAG(
         schedule_interval=datetime.timedelta(days=1),
         start_date=YESTERDAY) as dag:
 
-        start = dummy_operator.DummyOperator(task_id='run_this_first', dag=dag)
-
         passing = kubernetes_pod_operator.KubernetesPodOperator(
           task_id='passing-task',
           name='passing-test',
@@ -28,7 +26,4 @@ with models.DAG(
           arguments=["print('hello world')"],
           startup_timeout_seconds=300
         )
-
-
-passing.set_upstream(start)
 

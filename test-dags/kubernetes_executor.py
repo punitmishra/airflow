@@ -25,7 +25,7 @@ with models.DAG(
           namespace='default',
           image='Python:3.6',
           cmds=['Python','-c'],
-          arguments=['print('hello world')'],
+          arguments=["print('hello world')"],
           startup_timeout_seconds=300
         )
 

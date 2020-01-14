@@ -27,7 +27,7 @@ passing = KubernetesPodOperator(namespace='default',
                           labels={"foo": "bar"},
                           name="passing-test",
                           task_id="passing-task",
-                          get_logs=True,
+                          get_logs=False,
                           dag=dag
                           )
 

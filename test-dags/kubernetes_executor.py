@@ -24,6 +24,7 @@ with models.DAG(
         namespace='default',
         image='python:3.6',
         cmds=["python","-c"],
+        arguments=["print('By')"],
         startup_timeout_seconds=300)
 
         passing = kubernetes_pod_operator.KubernetesPodOperator(

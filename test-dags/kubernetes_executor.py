@@ -27,3 +27,10 @@ with models.DAG(
           startup_timeout_seconds=300
         )
 
+        kubernetes_secret_vars_ex = kubernetes_pod_operator.KubernetesPodOperator(
+        task_id='ex-kube-secrets',
+        name='ex-kube-secrets',
+        in_cluster=True,
+        namespace='default',
+        image='ubuntu',
+        startup_timeout_seconds=300)

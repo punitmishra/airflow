@@ -22,7 +22,8 @@ with models.DAG(
         name='ex-kube-secrets',
         in_cluster=True,
         namespace='default',
-        image='ubuntu',
+        image='python:3.6',
+        cmds=["python","-c"],
         startup_timeout_seconds=300)
 
         passing = kubernetes_pod_operator.KubernetesPodOperator(

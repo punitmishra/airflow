@@ -13,8 +13,9 @@ YESTERDAY = datetime.datetime.now() - datetime.timedelta(days=1)
 
 with models.DAG(
         dag_id='kubernetes_sample',
-        schedule_interval=datetime.timedelta(days=1),
-        start_date=YESTERDAY) as dag:
+        schedule_interval='0 0 * * *',
+        start_date=days_ago(2),
+        dagrun_timeout=timedelta(minutes=60)) as dag:
 
         passing = kubernetes_pod_operator.KubernetesPodOperator(
           task_id='passing-task',

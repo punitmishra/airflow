@@ -31,16 +31,6 @@ passing = kubernetes_pod_operator.KubernetesPodOperator(
   startup_timeout_seconds = 300
 )
 
-failing = kubernetes_pod_operator.KubernetesPodOperator(
-  task_id = 'failing-task',
-  name = 'failing-test',
-  in_cluster = True,
-  namespace = 'default',
-  image = 'ubuntu:1604',
-  cmds = ["python", "-c"],
-  arguments = ["print('hello world')"],
-  startup_timeout_seconds = 300
-)
+
 
 passing.set_upstream(start
-failing.set_upstream(start)

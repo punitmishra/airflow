@@ -42,4 +42,5 @@ failing = kubernetes_pod_operator.KubernetesPodOperator(
   startup_timeout_seconds = 300
 )
 
-passing.set_upstream(start)
+passing.set_upstream(start
+failing.set_upstream(start)

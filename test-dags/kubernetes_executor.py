@@ -17,15 +17,7 @@ with models.DAG(
         start_date=days_ago(2),
         dagrun_timeout=timedelta(minutes=60)) as dag:
 
-        kubernetes_secret_vars_ex = kubernetes_pod_operator.KubernetesPodOperator(
-        task_id='ex-kube-secrets',
-        name='ex-kube-secrets',
-        in_cluster=True,
-        namespace='default',
-        image='python:3.6',
-        cmds=["python","-c"],
-        arguments=["print('By')"],
-        startup_timeout_seconds=300)
+        start = dummy_operator.DummyOperator(task_id='run_this_first')
 
         passing = kubernetes_pod_operator.KubernetesPodOperator(
           task_id='passing-task',
@@ -38,4 +30,4 @@ with models.DAG(
           startup_timeout_seconds=300
         )
 
-        
+ passing.set_upstream(start)       

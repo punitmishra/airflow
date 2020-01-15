@@ -17,7 +17,11 @@ with models.DAG(
         start_date=days_ago(2),
         dagrun_timeout=timedelta(minutes=60)) as dag:
 
-        start = dummy_operator.DummyOperator(task_id='run_this_first')
+        start = dummy_operator.DummyOperator(
+          task_id='run_this_first',
+          name='first-test',
+          in_cluster=True
+        )
 
         passing = kubernetes_pod_operator.KubernetesPodOperator(
           task_id='passing-task',

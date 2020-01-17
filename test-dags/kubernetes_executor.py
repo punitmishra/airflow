@@ -34,4 +34,16 @@ with models.DAG(
           startup_timeout_seconds=300
         )
 
-passing.set_upstream(start)       
+        success = kubernetes_pod_operator.KubernetesPodOperator(
+          task_id='success-task',
+          name='success-test',
+          in_cluster=True,
+          namespace='default',
+          image='python:3.6',
+          cmds=["python","-c"],
+          arguments=["print('hello abhi')"],
+          startup_timeout_seconds=300
+        )
+
+passing.set_upstream(start)
+success.set_upstream(start)       

@@ -19,9 +19,7 @@ with models.DAG(
 
         start = dummy_operator.DummyOperator(
           task_id='run_this_first',
-          name='first-test',
-          is_delete_operator_pod=True,
-          in_cluster=True
+          name='first-test'
         )
 
         passing = kubernetes_pod_operator.KubernetesPodOperator(

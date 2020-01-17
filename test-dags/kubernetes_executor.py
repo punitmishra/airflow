@@ -1,12 +1,9 @@
-from airflow import DAG
+
 from datetime import datetime, timedelta
-from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.operators import dummy_operator
-from airflow.utils.dates import days_ago
-import datetime
 from airflow import models
-from airflow.contrib.kubernetes import secret
 from airflow.contrib.operators import kubernetes_pod_operator
+import datetime
 
 YESTERDAY = datetime.datetime.now() - datetime.timedelta(days=1)
 

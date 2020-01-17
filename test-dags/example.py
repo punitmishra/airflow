@@ -13,7 +13,8 @@ with models.DAG(
 
     start = dummy_operator.DummyOperator(
       task_id='run_this_first',
-      name='first-test'
+      name='first-test',
+      in_cluster=True
     )
 
     passing = kubernetes_pod_operator.KubernetesPodOperator(
@@ -62,7 +63,8 @@ with models.DAG(
 
     end = dummy_operator.DummyOperator(
       task_id='run_this_end',
-      name='end-test'
+      name='end-test',
+      in_cluster=True
     )
 
 start >> [passing, success] >> t1 >> t2 >> end

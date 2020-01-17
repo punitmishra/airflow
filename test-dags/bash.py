@@ -42,7 +42,7 @@ with models.DAG(
 
     t1 = kubernetes_pod_operator.KubernetesPodOperator(
       task_id='t1-task',
-      name='t2-test',
+      name='t1-test',
       namespace='default',
       image='python:3.6',
       cmds=["python","-c"],

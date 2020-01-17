@@ -20,6 +20,7 @@ with models.DAG(
         start = dummy_operator.DummyOperator(
           task_id='run_this_first',
           name='first-test',
+          is_delete_operator_pod=True,
           in_cluster=True
         )
 
@@ -31,6 +32,7 @@ with models.DAG(
           image='python:3.6',
           cmds=["python","-c"],
           arguments=["print('hello world')"],
+          is_delete_operator_pod=True,
           startup_timeout_seconds=300
         )
 
@@ -42,6 +44,7 @@ with models.DAG(
           image='python:3.6',
           cmds=["python","-c"],
           arguments=["print('hello abhi')"],
+          is_delete_operator_pod=True,
           startup_timeout_seconds=300
         )
 

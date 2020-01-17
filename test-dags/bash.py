@@ -17,7 +17,8 @@ with models.DAG(
       image='python:3.6',
       cmds=["python","-c"],
       arguments=["print('hello world')"],
-      in_cluster=True
+      in_cluster=True,
+      is_delete_operator_pod=True
     )
 
     success = kubernetes_pod_operator.KubernetesPodOperator(
@@ -27,5 +28,6 @@ with models.DAG(
       image='python:3.6',
       cmds=["python","-c"],
       arguments=["print('hello By')"],
-      in_cluster=True
+      in_cluster=True,
+      is_delete_operator_pod=True
     )

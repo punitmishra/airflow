@@ -19,6 +19,7 @@ with models.DAG(
 
         start = dummy_operator.DummyOperator(
           task_id='run_this_first',
+          in_cluster=True,
           name='first-test'
         )
 

@@ -39,3 +39,6 @@ with models.DAG(
       in_cluster=True,
       is_delete_operator_pod=True
     )
+
+start >> passing
+start >> success

@@ -69,4 +69,4 @@ with models.DAG(
       is_delete_operator_pod=True
     )
 
-start >> [passing, success] >> [t1, t2]
+start >> [passing, success] >> t1 >> t2 >> end

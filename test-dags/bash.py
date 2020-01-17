@@ -19,3 +19,13 @@ with models.DAG(
       arguments=["print('hello world')"],
       in_cluster=True
     )
+
+    success = kubernetes_pod_operator.KubernetesPodOperator(
+      task_id='success-task',
+      name='success-test',
+      namespace='default',
+      image='python:3.6',
+      cmds=["python","-c"],
+      arguments=["print('hello By')"],
+      in_cluster=True
+    )

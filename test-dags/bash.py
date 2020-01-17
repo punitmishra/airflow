@@ -40,5 +40,33 @@ with models.DAG(
       is_delete_operator_pod=True
     )
 
-start >> passing
-start >> success
+    t1 = kubernetes_pod_operator.KubernetesPodOperator(
+      task_id='t1-task',
+      name='t2-test',
+      namespace='default',
+      image='python:3.6',
+      cmds=["python","-c"],
+      arguments=["print('hello t1')"],
+      in_cluster=True,
+      is_delete_operator_pod=True
+    )
+
+    t2 = kubernetes_pod_operator.KubernetesPodOperator(
+      task_id='t2-task',
+      name='t2-test',
+      namespace='default',
+      image='python:3.6',
+      cmds=["python","-c"],
+      arguments=["print('hello t2')"],
+      in_cluster=True,
+      is_delete_operator_pod=True
+    )
+
+    end = dummy_operator.DummyOperator(
+      task_id='run_this_end',
+      name='end-test',
+      in_cluster=True,
+      is_delete_operator_pod=True
+    )
+
+start >> [passing, success] >> [t1, t2] >> end

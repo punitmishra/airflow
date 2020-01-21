@@ -17,7 +17,7 @@ with models.DAG(
       task_id='t1',
       name='task1',
       namespace='default',
-      image='eu.gcr.io/taiyo-239217/dag:fae4885',
+      image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["AlphaVantage()"],
       in_cluster=True,
       is_delete_operator_pod=True
@@ -27,7 +27,7 @@ with models.DAG(
       task_id='t2',
       name='task2',
       namespace='default',
-      image='eu.gcr.io/taiyo-239217/dag:fae4885',
+      image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["FRED()"],
       in_cluster=True,
       is_delete_operator_pod=True
@@ -37,7 +37,7 @@ with models.DAG(
       task_id='t3',
       name='task3',
       namespace='default',
-      image='eu.gcr.io/taiyo-239217/dag:fae4885',
+      image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["TechFeatures()"],
       in_cluster=True,
       is_delete_operator_pod=True
@@ -47,7 +47,7 @@ with models.DAG(
       task_id='t4',
       name='task4',
       namespace='default',
-      image='eu.gcr.io/taiyo-239217/dag:fae4885',
+      image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["DataAggregation()"],
       in_cluster=True,
       is_delete_operator_pod=True

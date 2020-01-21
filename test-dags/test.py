@@ -17,6 +17,6 @@ with models.DAG(
         image='eu.gcr.io/taiyo-239217/dag:fae4887',
         arguments=["AlphaVantage()"],
         in_cluster=True,
-        do_xcom_push=True,
+        xcom_push=True,
         is_delete_operator_pod=True
     )

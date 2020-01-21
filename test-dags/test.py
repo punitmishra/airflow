@@ -5,7 +5,7 @@ from airflow.operators import dummy_operator
 
 YESTERDAY = datetime.datetime.now() - datetime.timedelta(days=1)
 with models.DAG(
-        dag_id='example-1',
+        dag_id='demo',
         schedule_interval=datetime.timedelta(days=1),
         start_date=YESTERDAY) as dag:
     task1 = kubernetes_pod_operator.KubernetesPodOperator(

@@ -4,10 +4,12 @@ from airflow.contrib.operators import kubernetes_pod_operator
 from airflow.operators import dummy_operator
 
 YESTERDAY = datetime.datetime.now() - datetime.timedelta(days=1)
+
 with models.DAG(
         dag_id='demo',
         schedule_interval=datetime.timedelta(days=1),
         start_date=YESTERDAY) as dag:
+
     task1 = kubernetes_pod_operator.KubernetesPodOperator(
         task_id='t1',
         name='task1',
@@ -51,4 +53,5 @@ with models.DAG(
         xcom_push=True,
         is_delete_operator_pod=True
     )
+
 [task1, task2] >> task3 >> task4

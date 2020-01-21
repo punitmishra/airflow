@@ -13,11 +13,45 @@ with models.DAG(
 
     
 
-    passing = kubernetes_pod_operator.KubernetesPodOperator(
-      task_id='passing-task',
-      name='passing-test',
+    task1 = kubernetes_pod_operator.KubernetesPodOperator(
+      task_id='t1',
+      name='task1',
       namespace='default',
       image='eu.gcr.io/taiyo-239217/dag:fae4885',
+	  arguments=["AlphaVantage()"],
       in_cluster=True,
       is_delete_operator_pod=True
     )
+	
+	task2 = kubernetes_pod_operator.KubernetesPodOperator(
+      task_id='t2',
+      name='task2',
+      namespace='default',
+      image='eu.gcr.io/taiyo-239217/dag:fae4885',
+	  arguments=["FRED()"],
+      in_cluster=True,
+      is_delete_operator_pod=True
+    )
+	
+	task3 = kubernetes_pod_operator.KubernetesPodOperator(
+      task_id='t3',
+      name='task3',
+      namespace='default',
+      image='eu.gcr.io/taiyo-239217/dag:fae4885',
+	  arguments=["TechFeatures()"],
+      in_cluster=True,
+      is_delete_operator_pod=True
+    )
+	
+	task4 = kubernetes_pod_operator.KubernetesPodOperator(
+      task_id='t4',
+      name='task4',
+      namespace='default',
+      image='eu.gcr.io/taiyo-239217/dag:fae4885',
+	  arguments=["DataAggregation()"],
+      in_cluster=True,
+      is_delete_operator_pod=True
+    )
+
+[task1, task2] >> task3 >> task4
+

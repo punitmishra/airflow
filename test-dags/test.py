@@ -20,6 +20,7 @@ with models.DAG(
       image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["AlphaVantage()"],
       in_cluster=True,
+	  xcom_push=True,
       is_delete_operator_pod=True
     )
 	
@@ -30,6 +31,7 @@ with models.DAG(
       image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["FRED()"],
       in_cluster=True,
+	  xcom_push=True,
       is_delete_operator_pod=True
     )
 	
@@ -40,6 +42,7 @@ with models.DAG(
       image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["TechFeatures()"],
       in_cluster=True,
+	  xcom_push=True,
       is_delete_operator_pod=True
     )
 	
@@ -50,6 +53,7 @@ with models.DAG(
       image='eu.gcr.io/taiyo-239217/dag:fae4886',
 	  arguments=["DataAggregation()"],
       in_cluster=True,
+	  xcom_push=True,
       is_delete_operator_pod=True
     )
 

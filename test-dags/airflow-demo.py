@@ -30,8 +30,8 @@ with models.DAG(
         namespace='default',
         image='eu.gcr.io/taiyo-239217/dag:fae4887',
         arguments=["AlphaVantage()"],
-		volume=[volume],
-        volume_mounts=[volume_mount],
+		volume=[],
+        volume_mounts=[],
         in_cluster=True,
         xcom_push=True,
         is_delete_operator_pod=True

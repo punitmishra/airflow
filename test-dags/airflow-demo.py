@@ -20,7 +20,7 @@ volume_config= {
 volume = Volume(name='test-volume', configs=volume_config)
 
 with models.DAG(
-        dag_id='demo',
+        dag_id='airflow-demo',
         schedule_interval=datetime.timedelta(days=1),
         start_date=YESTERDAY) as dag:
 
